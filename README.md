@@ -1,5 +1,5 @@
 # E-commerce Laravel
-> This is an E-commerce project created using Laravel React starter pack + sandbox Zarinpal integration.
+> This is an E-commerce project created using Laravel React starter pack + sandbox Zarinpal integration which covers all the fundamentals to go for a scalable app.
 
 App is 90% compelete. You may find some bugs in the code, issues are welcome. 
 
