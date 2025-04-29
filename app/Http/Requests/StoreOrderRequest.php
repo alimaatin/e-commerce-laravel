@@ -26,19 +26,7 @@ class StoreOrderRequest extends FormRequest
             'email' => 'required|email',
             'address' => 'required',
             'postal_code' => 'required|numeric|digits:10',
-
-            'order' => 'required|array|min:1',
-            'order.*.product_id' => 'required|exists:products,id',
-            'order.*.quantity' => 'required|integer|min:1',
-            'order.*.price' => 'required|numeric|min:0',
+            'order' => 'required|string',
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        if (is_string($this->order)) {
-            $decoded = json_decode($this->order, true);
-            $this->merge(['order' => $decoded]);
-        }
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Services\OrderService;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -41,16 +42,16 @@ class OrderController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
     
-        $order = $this->orderservice->createOrder($validated);
+        $response = $this->orderservice->createOrder($validated);
 
-        if ($order) {
+        if ($response['data']['code'] == 100) {
             return Inertia::render('checkout/create', [
-                'order' => $order,
-                'redirect_url' => "https://sandbox.zarinpal.com/pg/StartPay/" . $order['authority'],
+                'order' => $response,
+                'redirect_url' => "https://sandbox.zarinpal.com/pg/StartPay/" . $response['data']['authority'],
             ]);
         } else {
             return Inertia::render('payment-failed', [
-                'data' => $order,
+                'data' => $response,
             ]);
         }
     }

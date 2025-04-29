@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 
 class ZarinpalService
@@ -17,19 +18,15 @@ class ZarinpalService
         'merchant_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         'amount' => $amount,
         'callback_url' => route('payment.verify'),
-        'description' => 'پرداخت سفارش شماره ' . $data['order_id'],
+        'description' => 'پرداخت سفارش شماره ' . $data['id'],
         'metadata' => [
             'email' => $data['email'],
-            'order_id' => strval($data['order_id']),
+            'order_id' => strval($data['id']),
         ],
     ]);
 
     $responseData = $zarinpalResponse->json();
 
-    if (isset($responseData['data']) && $responseData['data']['code'] == 100) {
-      return $responseData['data']['authority'];
-    }
-
-    return null;
+    return $responseData;
   }
 }

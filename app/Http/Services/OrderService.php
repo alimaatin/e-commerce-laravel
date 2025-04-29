@@ -18,18 +18,25 @@ class OrderService
   {
     $order = $this->orders->create($data);
 
-    foreach ($data["order"] as $order_detail) {
-      $order_detail['order_id'] = $order->id;
-      $this->orders->createDetail($order_detail);
+    $order_details = json_decode($data["order"], true);
+
+    $detail = [];
+
+    foreach ($order_details as $order_detail) {
+      $detail['order_id'] = $order->id;
+      $detail['product_id'] = $order_detail['id'];
+      $detail['quantity'] = $order_detail['quantity'];
+      $detail['price'] = $order_detail['price'];
+      $this->orders->createDetail($detail);
     }
 
-    $zarinpalResponse = $this->zarinpal->create($data);
+    $zarinpalResponse = $this->zarinpal->create($order->toArray());
 
-    if ($zarinpalResponse) {
-      $this->orders->update($data['order_id'], ['authority' => $zarinpalResponse]);
-      return $zarinpalResponse;
+    if($zarinpalResponse['data']['code'] == 100) {
+      $order->authority = $zarinpalResponse['data']['authority'];
+      $order->save();
     }
 
-    return null;
+    return $zarinpalResponse;
   }
 }

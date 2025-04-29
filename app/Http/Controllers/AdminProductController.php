@@ -6,7 +6,7 @@ use App\Http\Repositories\AdminProductRepository;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use App\ProductImageService;
+use App\Http\Services\ProductImageService;
 use Inertia\Inertia;
 
 class AdminProductController extends Controller
