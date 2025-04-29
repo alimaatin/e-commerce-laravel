@@ -2,37 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\AdminProductRepository;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\ProductImageService;
 use Inertia\Inertia;
 
 class AdminProductController extends Controller
 {
+    public function __construct(
+        protected AdminProductRepository $products,
+        protected ProductImageService $imageService
+    ) {}
+
     public function index()
     {
-        $products = Product::all()->sortByDesc('created_at')->values();
         return Inertia::render('admin/products/index', [
-            'products' => $products
+            'products' => $this->products->getAllSorted()
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $valiated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'price' => 'required|numeric|min:5',
-            'stock' => 'required|integer|min:0',
-            'discount' => 'required|numeric|min:0|max:100',
-        ]);
+        $validated = $request->validated();
 
-        $image = $request->file('image');
-        $image->store('products', 'public');
-        $valiated['image'] = $image->hashName();
+        if ($request->hasFile('image')) {
+            $this->imageService->storeImage($request->file('image'));
+            $validated['image'] = $request->file('image')->hashName();
+        }
 
-        $product = Product::create($valiated);
+        $this->products->create($validated);
         
         return redirect()->route('admin.products')->with('success', 'Product created successfully');
     }
@@ -44,26 +44,16 @@ class AdminProductController extends Controller
         ]);
     }
 
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        Log::info('Update request data:', $request->all());
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'description' => 'sometimes|string',
-            'price' => 'sometimes|numeric|min:5',
-            'stock' => 'sometimes|integer|min:0',
-            'discount' => 'sometimes|numeric|min:0|max:100',
-            'is_active' => 'sometimes|boolean',
-        ]);
-        Log::info('Validated data:', $validated);
+        $validated = $request->validated();
     
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $image->store('products', 'public');
-            $validated['image'] = $image->hashName();
+            $this->imageService->storeImage($request->file('image'));
+            $validated['image'] = $request->file('image')->hashName();
         }
         
-        $product->update($validated);
+        $this->products->update($product, $validated);
     
         return redirect()->route('admin.products')->with('success', 'Product updated successfully');
     }

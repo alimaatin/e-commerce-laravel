@@ -12,7 +12,6 @@ class ProductController extends Controller
     public function index() 
     {
         $products = Product::where('is_active', true)->get();
-        Log::info($products);
 
         return Inertia::render('products/index', ['products' => $products]);
     }

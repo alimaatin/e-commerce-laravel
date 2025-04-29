@@ -21,7 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Checkout() {
-  const { items, totalPrice, totalItems } = useCart();
+  const { items, totalPrice } = useCart();
   const { data, setData, post, processing, errors } = useForm<OrderForm>({
     name: '',
     email: '',

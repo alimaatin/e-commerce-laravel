@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = ['user_id', 'name', 'email', 'phone', 'address', 'postal_code', 'status'];
+    protected $fillable = ['user_id', 'name', 'email', 'phone', 'address', 'postal_code', 'status', 'authority'];
     public function getTotalPriceAttribute()
     {
         return $this->orderDetails->sum('price');
