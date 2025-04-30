@@ -20,4 +20,9 @@ class AdminProductRepository
   {
     return $product->update($data);
   }
+
+  public function decreamentStock(Product $product, $amount)
+  {
+    return Product::where('product_id', $product->id)->decrement('stock', $amount);
+  }
 }

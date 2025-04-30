@@ -1,10 +1,10 @@
 import { buttonVariants } from "@/components/ui/button";
 import { useCart } from "@/context/cart-context";
-import { Order, PaymentResponse } from "@/types";
+import { Order, PaymentResponse, PaymentSuccess } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
 import { useEffect } from "react";
 export default function PaymentVerify() {
-  const { order, responseData } = usePage<{ order: Order, responseData: PaymentResponse }>().props;
+  const { order, responseData } = usePage<{ order: Order, responseData: PaymentSuccess }>().props;
   const { clearCart } = useCart();
 
   useEffect(() => {
@@ -19,9 +19,9 @@ export default function PaymentVerify() {
                 <p>Order ID: {order.id}</p>
                 <p>Amount: {order.total_price}</p>
                 <p>Status: {order.status}</p>
-                <p>Payment ID: {responseData.data.ref_id}</p>
-                <p>Card Pan: {responseData.data.card_pan}</p>
-                <p>Fee: {responseData.data.fee}</p>
+                <p>Payment ID: {responseData.ref_id}</p>
+                <p>Card Pan: {responseData.card_pan}</p>
+                <p>Fee: {responseData.fee}</p>
               </div>
               <div className="flex flex-wrap items-center w-fit border rounded-md p-4 gap-2">
               {

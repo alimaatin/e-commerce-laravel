@@ -2,15 +2,20 @@
 
 namespace App\Http\Services;
 
+use App\Events\OrderVerified;
+use App\Http\Repositories\OrderRepository;
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 
 class ZarinpalService
 {
+  public function __construct(
+    protected OrderRepository $orders,
+  ){}
+
   public function create(array $data)
   {
-
-    $amount = $data['total_price'] * 10000;
+    $amount = intval($data['total_price'] * 10000);
 
     $zarinpalResponse = Http::withHeaders([
       'Accept' => 'application/json',
@@ -28,5 +33,33 @@ class ZarinpalService
     $responseData = $zarinpalResponse->json();
 
     return $responseData;
+  }
+
+  public function verify(string $authority)
+  {
+    $order = $this->orders->getByAuthority($authority);
+    $amount = intval($order->total_price * 10000);
+
+    $zarinpalResponse = Http::withHeaders([
+      'Accept' => 'application/json',
+    ])->post('https://sandbox.zarinpal.com/pg/v4/payment/verify.json', [
+        'merchant_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+        'amount' => $amount,
+        'authority' => $authority,
+    ]);
+
+    $responseData = $zarinpalResponse->json();
+
+    if(!empty($responseData['data']) && $responseData['data']['code'] == 100) {
+      $this->orders->update($order, [
+        'status' => 'pending',
+      ]);
+      event(new OrderVerified($order));
+    }
+
+    return [
+        'order' => $order,
+        'data' => $responseData['data'],
+    ];
   }
 }

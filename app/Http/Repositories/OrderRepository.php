@@ -13,6 +13,11 @@ class OrderRepository
     return Order::where("user_id", $user->id)->orderByDesc("created_at")->get();
   }
 
+  public function getByAuthority($authority)
+  {
+    return Order::where("authority", $authority)->first();
+  }
+
   public function create(array $data)
   {
     return Order::create($data);

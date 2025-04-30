@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 use App\Http\Repositories\OrderRepository;
 use App\Http\Services\OrderService;
+use App\Http\Services\ZarinpalService;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
@@ -17,6 +18,7 @@ class OrderController extends Controller
     public function __construct(
         protected OrderRepository $orders,
         protected OrderService $orderservice,
+        protected ZarinpalService $zarinpal
     ){}
 
     public function index()
@@ -44,7 +46,7 @@ class OrderController extends Controller
     
         $response = $this->orderservice->createOrder($validated);
 
-        if ($response['data']['code'] == 100) {
+        if (!empty($responseData['data']) && $response['data']['code'] == 100) {
             return Inertia::render('checkout/create', [
                 'order' => $response,
                 'redirect_url' => "https://sandbox.zarinpal.com/pg/StartPay/" . $response['data']['authority'],
@@ -58,34 +60,13 @@ class OrderController extends Controller
 
     public function verify(Request $request)
     {
-        $authority = $request->Authority;
-        $order = Order::where('authority', $authority)->first();
-        $amount = $order->total_price * 10000;
-
-        $zarinpalResponse = Http::withHeaders([
-            'Accept' => 'application/json',
-        ])->post('https://sandbox.zarinpal.com/pg/v4/payment/verify.json', [
-            'merchant_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-            'amount' => $amount,
-            'authority' => $authority,
-        ]);
-
-        $responseData = $zarinpalResponse->json();
-
-        if (isset($responseData['data']) && $responseData['data']['code'] == 100) {
-            $order->status = 'pending';
-            foreach ($order->orderDetails as $detail) {
-                $product = Product::find($detail->product_id);
-                $product->stock -= $detail->quantity;
-                $product->save();
-            }
-            $order->save();
+        $responseData = $this->zarinpal->verify($request->Authority);
+        if (!empty($responseData['data']) && $responseData['data']['code'] == 100) {
             return Inertia::render('payment-verify', [
-                'order' => $order,
-                'responseData' => $responseData,
+                'order' => $responseData['order'],
+                'responseData' => $responseData['data'],
             ]);
         } else {
-            $order->save();
             return Inertia::render('payment-failed', [
                 'data' => $responseData,
             ]);

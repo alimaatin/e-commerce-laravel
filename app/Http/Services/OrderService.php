@@ -32,9 +32,10 @@ class OrderService
 
     $zarinpalResponse = $this->zarinpal->create($order->toArray());
 
-    if($zarinpalResponse['data']['code'] == 100) {
-      $order->authority = $zarinpalResponse['data']['authority'];
-      $order->save();
+    if(!empty($responseData['data']) && $zarinpalResponse['data']['code'] == 100) {
+        $this->orders->update($order, [
+          'authority' => $zarinpalResponse['data']['authority'],
+      ]);
     }
 
     return $zarinpalResponse;
