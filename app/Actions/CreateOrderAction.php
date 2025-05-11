@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Actions;
 
-use App\Http\Repositories\OrderRepository;
-use App\Http\Services\ZarinpalService;
-use Illuminate\Support\Facades\Log;
+use App\Repositories\OrderRepository;
+use App\Services\ZarinpalService;
 
-class OrderService 
+class CreateOrderAction
 {
-
   public function __construct(
     protected OrderRepository $orders,
     protected ZarinpalService $zarinpal,
   ){}
 
-  public function createOrder(array $data)
+  public function handle(array $data)
   {
     $order = $this->orders->create($data);
 

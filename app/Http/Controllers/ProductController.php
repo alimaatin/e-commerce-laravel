@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\ProductRepository;
+use App\Repositories\ProductRepository;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -14,7 +12,7 @@ class ProductController extends Controller
         protected ProductRepository $products,
     ){}
 
-    public function index() 
+    public function index()
     {
         $products = $this->products->getAllSorted();
 

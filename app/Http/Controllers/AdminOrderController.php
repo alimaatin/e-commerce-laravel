@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\AdminOrderRepository;
+use App\Repositories\OrderRepository;
 use App\Http\Requests\AdminUpdateOrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Inertia\Inertia;
 class AdminOrderController extends Controller
 {
     public function __construct(
-        protected AdminOrderRepository $orders,
+        protected OrderRepository $orders,
     ){}
 
     public function index()

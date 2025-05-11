@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
 use App\Events\OrderVerified;
-use App\Http\Repositories\OrderRepository;
+use App\Repositories\OrderRepository;
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
+
+//TODO
+//Abstract requests, response checks and more
 
 class ZarinpalService
 {

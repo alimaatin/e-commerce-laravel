@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\CreateOrderAction;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
-use App\Http\Repositories\OrderRepository;
-use App\Http\Services\OrderService;
-use App\Http\Services\ZarinpalService;
-use Illuminate\Support\Facades\Log;
+use App\Repositories\OrderRepository;
+use App\Services\ZarinpalService;
 
 class OrderController extends Controller
 {
     public function __construct(
         protected OrderRepository $orders,
-        protected OrderService $orderservice,
+        protected CreateOrderAction $createOrder,
         protected ZarinpalService $zarinpal
     ){}
 
@@ -43,8 +40,8 @@ class OrderController extends Controller
     {
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-    
-        $response = $this->orderservice->createOrder($validated);
+
+        $response = $this->createOrder->handle($validated);
 
         if (!empty($responseData['data']) && $response['data']['code'] == 100) {
             return Inertia::render('checkout/create', [

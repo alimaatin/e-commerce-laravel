@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Repositories\AdminProductRepository;
+use App\Actions\StoreImageAction;
+use App\Repositories\ProductRepository;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
-use App\Http\Services\ProductImageService;
 use Inertia\Inertia;
 
 class AdminProductController extends Controller
 {
     public function __construct(
-        protected AdminProductRepository $products,
-        protected ProductImageService $imageService
+        protected ProductRepository $products,
+        protected StoreImageAction $storeImage
     ) {}
 
     public function index()
@@ -27,18 +27,15 @@ class AdminProductController extends Controller
     {
         $validated = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $this->imageService->storeImage($request->file('image'));
-            $validated['image'] = $request->file('image')->hashName();
-        }
+        $validated['image'] = $this->storeImage->handle($request->file('image'));
 
         $this->products->create($validated);
-        
+
         return redirect()->route('admin.products')->with('success', 'Product created successfully');
     }
 
     public function edit(Product $product)
-    {   
+    {
         return Inertia::render('admin/products/edit', [
             'product' => $product
         ]);
@@ -47,14 +44,11 @@ class AdminProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $validated = $request->validated();
-    
-        if ($request->hasFile('image')) {
-            $this->imageService->storeImage($request->file('image'));
-            $validated['image'] = $request->file('image')->hashName();
-        }
-        
+
+        $validated['image'] = $this->storeImage->handle($request->file('image'));
+
         $this->products->update($product, $validated);
-    
+
         return redirect()->route('admin.products')->with('success', 'Product updated successfully');
     }
 }
