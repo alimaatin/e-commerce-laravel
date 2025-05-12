@@ -8,7 +8,7 @@ class Product extends Model
 {
 
     use HasFactory;
-    protected $fillable = ['name', 'description', 'price', 'stock', 'image', 'discount', 'is_active'];
+    protected $fillable = ['name', 'description', 'price', 'stock', 'image', 'discount', 'is_active', 'vendor_Id'];
 
     public function getDiscountedPriceAttribute()
     {
@@ -19,6 +19,11 @@ class Product extends Model
     }
 
     protected $appends = ['discounted_price'];
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 
     public function orderDetails()
     {

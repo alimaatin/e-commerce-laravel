@@ -3,9 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\OrderVerified;
-use App\Http\Repositories\AdminProductRepository;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Repositories\ProductRepository;
 
 class AdjustProductStock
 {
@@ -13,7 +11,7 @@ class AdjustProductStock
      * Create the event listener.
      */
     public function __construct(
-        protected AdminProductRepository $products,
+        protected ProductRepository $products,
     ){}
 
     /**
