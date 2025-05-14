@@ -1,4 +1,4 @@
-import DashboardLayout from "@/layouts/app/dashboard-layout";
+import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem, Order } from "@/types";
 import { Head, usePage } from "@inertiajs/react";
 
@@ -24,7 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function OrderShow() {
   const { order } = usePage<{ order: Order }>().props;
   return (
-    <DashboardLayout breadcrumbs={breadcrumbs}>
+    <AppLayout breadcrumbs={breadcrumbs}>
       <Head title={`Order ${order.id}`} />
       <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
         <h1 className="text-2xl font-bold">Order#{order.id}</h1>
@@ -56,7 +56,7 @@ export default function OrderShow() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
+    </AppLayout>
   );
 }
 

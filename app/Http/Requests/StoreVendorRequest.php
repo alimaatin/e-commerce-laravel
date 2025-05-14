@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminUpdateOrderRequest extends FormRequest
+class StoreVendorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class AdminUpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required|string|in:pending,completed',
+            'name' => 'required|string|max:255',
         ];
     }
 }

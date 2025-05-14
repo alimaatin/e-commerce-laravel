@@ -1,4 +1,4 @@
-import HomeLayout from '@/layouts/app/home-layout';
+import HomeLayout from '@/layouts/home-layout';
 import { type Product } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 import ProductCard from '@/components/product-card';

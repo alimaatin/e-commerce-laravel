@@ -20,7 +20,7 @@ export default function Header() {
         <div className="flex gap-4 items-center">
           <Cart />
           { auth.user ?
-          <Link href={route('register')} className={buttonVariants({variant: 'outline'})}>
+          <Link href={route('dashboard')} className={buttonVariants({variant: 'outline'})}>
             Dashboard
           </Link>  
           :

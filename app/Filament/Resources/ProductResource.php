@@ -33,6 +33,7 @@ class ProductResource extends Resource
                 RichEditor::make('description')
                 ->required(),
                 FileUpload::make('image')
+                ->directory('products')
                 ->required(),
                 TextInput::make('price')
                 ->numeric()
@@ -47,7 +48,7 @@ class ProductResource extends Resource
                 ->numeric()
                 ->placeholder('30')
                 ->maxValue(100),
-                Toggle::make('active')
+                Toggle::make('is_active')
                 ->default(true),
                 Select::make('vendor_id')
                 ->relationship('vendor', 'name')

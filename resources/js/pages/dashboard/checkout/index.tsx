@@ -1,13 +1,13 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useCart } from "@/context/cart-context";
-import DashboardLayout from "@/layouts/app/dashboard-layout";
-import { BreadcrumbItem, OrderForm } from "@/types";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { BreadcrumbItem } from "@/types";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import InputError from "@/components/input-error";
+import AppLayout from "@/layouts/app-layout";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -19,6 +19,14 @@ const breadcrumbs: BreadcrumbItem[] = [
       href: '/checkout',
   },
 ];
+
+type OrderForm = {
+  name: string;
+  email: string;
+  address: string;
+  postal_code: string;
+  order: string;   
+}
 
 export default function Checkout() {
   const { items, totalPrice } = useCart();
@@ -35,16 +43,17 @@ export default function Checkout() {
     post(route('checkout.create'), {
       preserveScroll: true,
       onSuccess: (response) => {
+        //@ts-ignore
         const redirectUrl = response.redirect_url;
         if (redirectUrl) {
-          window.location.href = redirectUrl;
+          router.visit(redirectUrl);
         }
       },
     });
   }
 
   return (
-    <DashboardLayout breadcrumbs={breadcrumbs}>
+    <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Checkout" />
       <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row justify-between p-4 gap-4">
       {
@@ -141,6 +150,6 @@ export default function Checkout() {
         </>
       )}
       </form>
-    </DashboardLayout>
+    </AppLayout>
   );
 }

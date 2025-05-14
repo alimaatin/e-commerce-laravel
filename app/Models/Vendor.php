@@ -12,6 +12,18 @@ class Vendor extends Model
         'status'
     ];
 
+    protected $appends = ['owner_name'];
+
+    public function getOwnerNameAttribute()
+    {
+            return $this->owner->name;
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');

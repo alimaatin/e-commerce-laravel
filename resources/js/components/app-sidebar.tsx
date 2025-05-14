@@ -16,33 +16,36 @@ export function AppSidebar() {
             title: 'Dashboard',
             href: '/dashboard',
             icon: LayoutGrid,
-            isActive: true,
         },
         {
             title: 'Orders',
             href: '/dashboard/orders',
             icon: ClipboardCopy,
-            isActive: false,
         },
         {
             title: 'Settings',
             href: route('profile.edit'),
             icon: Settings,
-            isActive: false,
         },
-            {
+        {
             title: 'Admin',
             href: '/admin',
             icon: User,
             isActive: auth.user.role === "admin",
+        },
+        {
+            title: 'Seller',
+            href: route('dashboard.vendors'),
+            icon: User,
         },
     ];
 
     const footerNavItems: NavItem[] = [
         {
             title: 'Become a seller',
-            href: '/dashboard',
+            href: route('seller.create'),
             icon: ArrowBigLeft,
+            isActive: auth.user.role === "user",
         },
     ];
 

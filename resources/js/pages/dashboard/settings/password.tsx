@@ -10,7 +10,6 @@ import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import DashboardLayout from '@/layouts/app/dashboard-layout';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Home',
@@ -57,7 +56,7 @@ export default function Password() {
     };
 
     return (
-        <DashboardLayout breadcrumbs={breadcrumbs}>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Profile settings" />
 
             <SettingsLayout>
@@ -131,6 +130,6 @@ export default function Password() {
                     </form>
                 </div>
             </SettingsLayout>
-        </DashboardLayout>
+        </AppLayout>
     );
 }

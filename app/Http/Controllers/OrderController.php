@@ -20,7 +20,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        return Inertia::render('orders/index', [
+        return Inertia::render('dashboard/orders/index', [
             'orders' => $this->orders->getUserOrdersSorted(auth()->user()),
         ]);
     }
@@ -32,7 +32,7 @@ class OrderController extends Controller
 
         $order->order_details;
 
-        return Inertia::render('orders/show', [
+        return Inertia::render('dashboard/orders/show', [
             'order' => $order,
         ]);
     }
@@ -44,7 +44,7 @@ class OrderController extends Controller
         $response = $this->createOrder->handle($validated);
 
         if (!empty($responseData['data']) && $response['data']['code'] == 100) {
-            return Inertia::render('checkout/create', [
+            return Inertia::render('dashboard/checkout/create', [
                 'order' => $response,
                 'redirect_url' => "https://sandbox.zarinpal.com/pg/StartPay/" . $response['data']['authority'],
             ]);

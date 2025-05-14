@@ -63,6 +63,7 @@ export interface ProductForm {
     stock: number;
     discount: number;
     is_active?: boolean;
+    vendor: number;
 }
 
 export interface EditUserForm {
@@ -76,14 +77,6 @@ export interface CartItem {
     quantity: number;
     image: string;
     stock: number;
-}
-
-export interface OrderForm {
-    name: string;
-    email: string;
-    address: string;
-    postal_code: string;
-    order: string;   
 }
 
 export interface Order {
@@ -122,5 +115,15 @@ export interface PaymentSuccess {
 export interface PaymentResponse {
     data: PaymentSuccess;
     errors: [];
+}
+
+export interface Vendor {
+    id: number;
+    name: string;
+    owner_id: number;
+    owner_name: string;
+    status: string;
+    created_at: Date;
+    updated_at: Date;
 }
 

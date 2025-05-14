@@ -1,6 +1,6 @@
 import TextLink from "@/components/text-link";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import DashboardLayout from "@/layouts/app/dashboard-layout";
+import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem, Order } from "@/types";
 import { Head, Link, usePage } from "@inertiajs/react";
 
@@ -24,7 +24,7 @@ export default function Orders() {
   const { orders } = usePage<{ orders: Order[] }>().props;
 
     return (
-      <DashboardLayout breadcrumbs={breadcrumbs}>
+      <AppLayout breadcrumbs={breadcrumbs}>
         <Head title="Orders" />
         <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
           <Table>
@@ -54,6 +54,6 @@ export default function Orders() {
             </TableBody>
           </Table>
         </div>
-      </DashboardLayout>
+      </AppLayout>
     );
 }
