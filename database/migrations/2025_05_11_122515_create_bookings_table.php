@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('notes')->nullable();
             $table->date('date');
-            $table->integer('hour');
+            $table->time('time');   
+            $table->integer('price');
             $table->timestamps();
         });
     }

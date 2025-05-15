@@ -20,10 +20,8 @@ class VendorProductController extends Controller
 
     public function index(Vendor $vendor)
     {
-        $products = $vendor->products;
-
         return Inertia::render('seller/products/index', [
-            'products' => $products,
+            'products' => $vendor->products,
             'vendor' => $vendor,
         ]);
     }

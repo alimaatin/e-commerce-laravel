@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
 use App\Models\User;
 use App\Models\Vendor;
 
@@ -21,5 +20,10 @@ class VendorRepository
   public function createProduct(Vendor $vendor, array $data)
   {
     return $vendor->products()->create($data);
+  }
+
+  public function createReservation(Vendor $vendor, array $data)
+  {
+    return $vendor->reservations()->create($data);
   }
 }

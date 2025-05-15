@@ -127,3 +127,32 @@ export interface Vendor {
     updated_at: Date;
 }
 
+export interface Reservation {
+  id: number;
+  vendor_id: number;
+  name: string;
+  summary: string;
+  description: string;
+  price: number;
+  start: string; // datetime (ISO format)
+  end: string;
+  off_days: string[]; // array of day names e.g. ['Friday', 'Saturday']
+  exp_date: string; // date
+  status: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReservationForm {
+  name: string;
+  summary: string;
+  description: string;
+  start: string;
+  end: string;
+  price: number;
+  off_days: string[];
+  exp_date: string;
+  status: boolean;
+  vendor_id: number;
+}
+

@@ -4,6 +4,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorProductController;
+use App\Http\Controllers\VendorReservationController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,12 +37,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::post('/seller/{vendor}/products', [VendorProductController::class, 'store'])->name('seller.products.store');
 
-  Route::get('/seller/{vendor}/{product}', [VendorProductController::class, 'edit'])->name('seller.products.edit');
+  Route::get('/seller/{vendor}/p-{product}', [VendorProductController::class, 'edit'])->name('seller.products.edit');
 
-  Route::post('/seller/{vendor}/{product}', [VendorProductController::class, 'update'])->name('seller.products.update');
+  Route::post('/seller/{vendor}/p-{product}', [VendorProductController::class, 'update'])->name('seller.products.update');
 
 
-  Route::get('/seller/{vendor}/reservations')->name('seller.products');
+  Route::get('/seller/{vendor}/reservations', [VendorReservationController::class, 'index'])->name('seller.reservations');
+
+  Route::get('/seller/{vendor}/reservations/create', [VendorReservationController::class, 'create'])->name('seller.reservations.create');
+
+  Route::post('/seller/{vendor}/reservations', [VendorReservationController::class, 'store'])->name('seller.reservations.store');
+
+  Route::get('/seller/{vendor}/r-{reservation}', [VendorReservationController::class, 'edit'])->name('seller.reservations.edit');
+
+  Route::post('/seller/{vendor}/r-{reservation}', [VendorReservationController::class, 'update'])->name('seller.reservations.update');
+
+
+  Route::get('/seller/{vendor}/users');
+
+  Route::get('/seller/{vendor}/u-{user}');
+
+  Route::post('/seller/{vendor}/users/create');
+
+  Route::post('/seller/{vendor}/users');
+
 
   Route::get('/seller/{vendor}/orders')->name('seller.products');
 

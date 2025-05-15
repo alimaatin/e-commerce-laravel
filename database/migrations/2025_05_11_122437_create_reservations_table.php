@@ -17,11 +17,14 @@ return new class extends Migration
             $table->string('summary')->nullable();
             $table->string('description')->nullable();
             $table->foreignId('vendor_id')->constrained('vendors');
-            $table->integer('start');
-            $table->integer('end');
-            $table->json('off_days');
-            $table->integer('exp_date');
+            $table->time('start');
+            $table->time('end');
+            $table->integer('duration'); //How long the session takes
+            $table->integer('session_duration'); //How long the service is available
+            $table->json('off_days')->nullable();
             $table->boolean('status')->default(true);
+            $table->integer('price');
+            $table->integer('duration');
             $table->timestamps();
         });
     }
