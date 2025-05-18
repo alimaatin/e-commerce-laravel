@@ -45,7 +45,7 @@ class StoreReservationRequest extends FormRequest
             'name' => 'required|string|max:255',
             'summary' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:1000',
+            'price' => 'required|numeric|min:50000',
             'session_duration' => 'required|numeric|min:30|max:120',
             'duration' => 'required|numeric|min:7|max:30',
             'start' => 'required|date_format:H:i|before:end',

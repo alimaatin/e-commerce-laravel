@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('vendor_invitations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('members')->cascadeOnDelete();
-            $table->enum('status', ['pending', 'rejected']);
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('email');
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import AppLayout from '@/layouts/app-layout';
 import SellerLayout from '@/layouts/seller/layout';
 import { cn } from '@/lib/utils';
-import { Product, SharedData, Vendor, type BreadcrumbItem } from '@/types';
+import { Member, Product, SharedData, User, Vendor, type BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { PencilIcon, PlusIcon } from 'lucide-react';
 
@@ -26,8 +26,12 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function SellerProducts() {
-    const { vendor, products } = usePage<SharedData & { vendor: Vendor, products: Product[]}>().props;
+const firstLetterUpperCase = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export default function SellerUsers() {
+    const { vendor, users } = usePage<SharedData & { vendor: Vendor, users: Member[]}>().props;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
           <SellerLayout vendor_id={vendor.id}>
@@ -36,9 +40,9 @@ export default function SellerProducts() {
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
 
-              <Link href={route('seller.products.create', {vendor: vendor.id})} className={cn(buttonVariants({ variant: 'default' }), 'w-fit')}>
+              <Link href={route('seller.users.create', {vendor: vendor.id})} className={cn(buttonVariants({ variant: 'default' }), 'w-fit')}>
                 <PlusIcon />
-                Add Product
+                Invite User
               </Link>
 
               <Table>
@@ -47,28 +51,22 @@ export default function SellerProducts() {
                       <TableRow>
                           <TableHead>ID</TableHead>
                           <TableHead>Name</TableHead>
-                          <TableHead>Price</TableHead>
-                          <TableHead>Stock</TableHead>
-                          <TableHead>Discount</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead>Actions</TableHead>
+                          <TableHead>Email</TableHead>
                       </TableRow>
                   </TableHeader>
 
                   <TableBody>
-                    {products.map((product: Product) => (
-                      <TableRow key={product.id}>
-                        <TableCell>{product.id}</TableCell>
-                        <TableCell>{product.name}</TableCell>
-                        <TableCell>{product.price}</TableCell>
-                        <TableCell>{product.stock}</TableCell>
-                        <TableCell>{product.discount}</TableCell>
-                        <TableCell>{product.is_active ? 'Active' : 'Inactive'}</TableCell>
-                        <TableCell>
-                          <TextLink href={route('seller.products.edit', { vendor: vendor.id, product: product.id })}>
-                            Edit
-                          </TextLink>
-                        </TableCell>
+                    {users.map((user: Member) => (
+                      <TableRow key={user.user.id}>
+                        <TableCell>{user.user.id}</TableCell>
+                        <TableCell>{user.user.name}</TableCell>
+                        <TableCell>{user.user.email}</TableCell>
+                        {
+                          user.status ?
+                          <TableCell>{firstLetterUpperCase(user.status)}</TableCell>
+                          :
+                          <TableCell>Member</TableCell>
+                        }
                       </TableRow>
                     ))}
                   </TableBody>

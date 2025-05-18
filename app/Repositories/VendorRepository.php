@@ -26,4 +26,9 @@ class VendorRepository
   {
     return $vendor->reservations()->create($data);
   }
+
+  public function createInvitation(Vendor $vendor, array $data)
+  {
+    return $vendor->invitations()->create($data);
+  }
 }

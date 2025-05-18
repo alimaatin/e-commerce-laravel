@@ -19,12 +19,11 @@ return new class extends Migration
             $table->foreignId('vendor_id')->constrained('vendors');
             $table->time('start');
             $table->time('end');
-            $table->integer('duration'); //How long the session takes
-            $table->integer('session_duration'); //How long the service is available
+            $table->integer('duration'); //How long the service is available
+            $table->integer('session_duration'); //How long the session takes in minutes
             $table->json('off_days')->nullable();
             $table->boolean('status')->default(true);
             $table->integer('price');
-            $table->integer('duration');
             $table->timestamps();
         });
     }

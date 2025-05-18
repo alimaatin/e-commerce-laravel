@@ -43,6 +43,13 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
+export interface Member {
+    vendor_id: number;
+    user_id: number;
+    status: string | null;
+    user: User;
+}
+
 export interface Product {
     id: number;
     name: string;

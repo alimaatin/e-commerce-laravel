@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('vendor_members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('members')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('email');
             $table->timestamps();
         });
     }

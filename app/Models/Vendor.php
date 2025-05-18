@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Vendor extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'owner_id',
@@ -16,7 +19,27 @@ class Vendor extends Model
 
     public function getOwnerNameAttribute()
     {
-            return $this->owner->name;
+        return $this->owner->name;
+    }
+
+    // public function getUsersAttribute()
+    // {
+    //     $invitations = $this->invitations()->user;
+    //     $members = $this->members()->user;
+
+    //     $users = array_merge($invitations, $members);
+
+    //     return $users;
+    // }
+
+    public function members()
+    {
+        return $this->hasMany(VendorMember::class);
+    }
+
+    public function invitations()
+    {
+        return $this->hasMany(VendorInvitation::class);
     }
 
     public function products()

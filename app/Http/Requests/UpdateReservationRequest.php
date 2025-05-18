@@ -45,7 +45,7 @@ class UpdateReservationRequest extends FormRequest
             'name' => 'sometimes|string|max:255',
             'summary' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
-            'price' => 'required|numeric|min:10000',
+            'price' => 'required|numeric|min:50000',
             'session_duration' => 'sometimes|numeric|min:30|max:120',        
             'duration' => 'sometimes|numeric|min:7|max:30',
             'start' => 'required_with:end|date_format:H:i|before:end',

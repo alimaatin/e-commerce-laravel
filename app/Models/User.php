@@ -51,4 +51,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Vendor::class, 'owner_id');
     }
+
+    public function vendorMembers()
+    {
+        return $this->hasMany(VendorMember::class);
+    }
+
+    public function vendorInvitation()
+    {
+        return $this->hasMany(VendorInvitation::class);
+    }
 }

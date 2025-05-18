@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorProductController;
 use App\Http\Controllers\VendorReservationController;
+use App\Http\Controllers\VendorUserController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,16 +54,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/seller/{vendor}/r-{reservation}', [VendorReservationController::class, 'update'])->name('seller.reservations.update');
 
 
-  Route::get('/seller/{vendor}/users');
+  Route::get('/seller/{vendor}/users', [VendorUserController::class, 'index'])->name('seller.users');
 
-  Route::get('/seller/{vendor}/u-{user}');
+  Route::get('/seller/{vendor}/users/invite', [VendorUserController::class, 'create'])->name('seller.users.create');
 
-  Route::post('/seller/{vendor}/users/create');
-
-  Route::post('/seller/{vendor}/users');
+  Route::post('/seller/{vendor}/users', [VendorUserController::class, 'store'])->name('seller.users.store');
 
 
-  Route::get('/seller/{vendor}/orders')->name('seller.products');
+  Route::get('/seller/{vendor}/orders')->name('seller.orders');
 
-  Route::get('/seller/{vendor}/bookings')->name('seller.products');
+  Route::get('/seller/{vendor}/bookings')->name('seller.bookings');
 });
