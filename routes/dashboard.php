@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
@@ -61,7 +62,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/seller/{vendor}/users', [VendorUserController::class, 'store'])->name('seller.users.store');
 
 
+  Route::post('/seller/{vendor}/accept')->name('vendor.accept');
+
+  Route::post('/seller/{vendor}/decline')->name('vendor.decline');
+
+
   Route::get('/seller/{vendor}/orders')->name('seller.orders');
 
   Route::get('/seller/{vendor}/bookings')->name('seller.bookings');
+
+
+  Route::get('/dashboard/notifications', [NotificationController::class, 'index'])->name('notifications');
 });

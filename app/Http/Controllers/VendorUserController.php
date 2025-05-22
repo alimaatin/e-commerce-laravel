@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Requests\InviteVendorMemberRequest;
 use App\Models\Vendor;
 use App\Repositories\VendorRepository;
@@ -44,7 +45,9 @@ class VendorUserController extends Controller
     {
         $validated = $request->validated();
 
-        $this->vendorService->inviteMember($vendor, $validated);
+        $invitation = $this->vendorService->inviteMember($vendor, $validated);
+
+        event(new NotificationEvent($invitation, $invitation->user_id));
 
         return to_route('dashboard');
     }

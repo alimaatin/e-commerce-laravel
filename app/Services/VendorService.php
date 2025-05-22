@@ -29,14 +29,14 @@ class VendorService
 
   public function inviteMember(Vendor $vendor, array $data)
   {
-    $invitation = VendorInvitation::where('email', $data['email'])->first();
-    $member = VendorMember::where('email', $data['email'])->first();
+    // $invitation = VendorInvitation::where('email', $data['email'])->first();
+    // $member = VendorMember::where('email', $data['email'])->first();
 
-    if($invitation || $member) {
-      throw ValidationException::withMessages([
-        'email' => ['The user has already been invited to the vendor.']
-      ]);
-    }
+    // if($invitation || $member) {
+    //   throw ValidationException::withMessages([
+    //     'email' => ['The user has already been invited to the vendor.']
+    //   ]);
+    // }
 
     $user = User::where('email', $data['email'])->firstOrFail();
 

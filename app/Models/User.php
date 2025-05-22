@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(VendorInvitation::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

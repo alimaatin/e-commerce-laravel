@@ -163,3 +163,16 @@ export interface ReservationForm {
   vendor_id: number;
 }
 
+export interface InvitationAction {
+    accept: string;
+    decline: string;
+}
+
+export interface Notification {
+    id: number;
+    read: boolean;
+    message: string;
+    reference_id: number;
+    reference_type: string;
+    user_id: number;
+}
