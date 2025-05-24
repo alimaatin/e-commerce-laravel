@@ -24,9 +24,11 @@ class VendorController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('dashboard/seller/create');
+        return Inertia::render('dashboard/seller/create', [
+            'status' => $request->session()->get('status')
+        ]);
     }
 
     public function store(StoreVendorRequest $request)

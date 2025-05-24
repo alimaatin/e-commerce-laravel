@@ -170,7 +170,8 @@ export interface InvitationAction {
 
 export interface Notification {
     id: number;
-    read: boolean;
+    is_read: boolean;
+    action_taken: boolean;
     message: string;
     reference_id: number;
     reference_type: string;

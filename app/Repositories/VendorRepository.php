@@ -2,8 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\VendorInvitation;
 
 class VendorRepository
 {
@@ -30,5 +32,22 @@ class VendorRepository
   public function createInvitation(Vendor $vendor, array $data)
   {
     return $vendor->invitations()->create($data);
+  }
+
+  public function createMember(Vendor $vendor, array $data)
+  {
+    return $vendor->members()->create($data);
+  }
+
+  public function updateInvitationStatus(VendorInvitation $vendorInvitation, string $data)
+  {
+    return $vendorInvitation->update([
+      'status' => $data
+    ]);
+  }
+
+  public function updateNotificationStatus(Notification $notification, array $data)
+  {
+    return $notification->update($data);
   }
 }

@@ -8,8 +8,7 @@ import { ArrowBigLeft, BookOpen, ClipboardCopy, Folder, LayoutGrid, List, Packag
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
-    const page = usePage<SharedData>();
-    const { auth } = page.props;
+    const { auth, is_vendor_owner } = usePage<SharedData>().props;
 
     const mainNavItems: NavItem[] = [
         {
@@ -37,6 +36,7 @@ export function AppSidebar() {
             title: 'Seller',
             href: route('dashboard.vendors'),
             icon: User,
+            isActive: auth.user.role === "seller",
         },
     ];
 
@@ -45,7 +45,7 @@ export function AppSidebar() {
             title: 'Become a seller',
             href: route('seller.create'),
             icon: ArrowBigLeft,
-            isActive: auth.user.role === "user",
+            isActive: !is_vendor_owner,
         },
     ];
 

@@ -2,6 +2,7 @@ import TextLink from '@/components/text-link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { firstLetterUpperCase } from '@/helpers/first-letter-uppercase';
 import AppLayout from '@/layouts/app-layout';
 import SellerLayout from '@/layouts/seller/layout';
 import { cn } from '@/lib/utils';
@@ -25,10 +26,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/seller/{vendor}/products',
     },
 ];
-
-const firstLetterUpperCase = (string: string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 export default function SellerUsers() {
     const { vendor, users } = usePage<SharedData & { vendor: Vendor, users: Member[]}>().props;

@@ -2,11 +2,12 @@
 
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\VendorInvitationController;
 use App\Http\Controllers\VendorProductController;
 use App\Http\Controllers\VendorReservationController;
 use App\Http\Controllers\VendorUserController;
+use App\Http\Middleware\VendorCreationMiddleware;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
   Route::get('/seller-form', [VendorController::class, 'create'])->name('seller.create');
 
-  Route::post('/seller-form', [VendorController::class, 'store'])->name('seller.store');
+  Route::post('/seller-form', [VendorController::class, 'store'])->middleware([VendorCreationMiddleware::class])->name('seller.store');
 
 
   Route::get('/seller/{vendor}', [VendorController::class, 'show'])->name('seller.dashboard');
@@ -62,9 +63,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/seller/{vendor}/users', [VendorUserController::class, 'store'])->name('seller.users.store');
 
 
-  Route::post('/seller/{vendor}/accept')->name('vendor.accept');
+  Route::post('/seller/{vendor_invitation}/accept', [VendorInvitationController::class, 'accept'])->name('vendor.invitation.accept');
 
-  Route::post('/seller/{vendor}/decline')->name('vendor.decline');
+  Route::post('/seller/{vendor_invitation}/decline', [VendorInvitationController::class, 'decline'])->name('vendor.invitation.decline');
 
 
   Route::get('/seller/{vendor}/orders')->name('seller.orders');
