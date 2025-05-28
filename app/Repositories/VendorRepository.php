@@ -50,4 +50,14 @@ class VendorRepository
   {
     return $notification->update($data);
   }
+
+  public function getOrders(Vendor $vendor)
+  {
+    return $vendor->orders;
+  }
+
+  public function getBookings(Vendor $vendor)
+  {
+    return $vendor->bookings;
+  }
 }

@@ -136,15 +136,16 @@ export interface Vendor {
 
 export interface Reservation {
   id: number;
-  vendor_id: number;
   name: string;
   summary: string;
   description: string;
-  price: number;
-  start: string; // datetime (ISO format)
+  start: string;
   end: string;
-  off_days: string[]; // array of day names e.g. ['Friday', 'Saturday']
-  exp_date: string; // date
+  price: number;
+  duration: number;
+  session_duration: number;
+  off_days: string[];
+  status: boolean;
   status: boolean;
   created_at: string;
   updated_at: string;
@@ -157,8 +158,9 @@ export interface ReservationForm {
   start: string;
   end: string;
   price: number;
+  duration: number;
+  session_duration: number;
   off_days: string[];
-  exp_date: string;
   status: boolean;
   vendor_id: number;
 }
@@ -176,4 +178,18 @@ export interface Notification {
     reference_id: number;
     reference_type: string;
     user_id: number;
+}
+
+export interface Time {
+    [date: string]: string[];
+}
+
+export interface IBooking {
+    id: number;
+    date: Date;
+    time: string;
+    price: number;
+    done: boolean;
+    created_at:Date;
+    updated_at:Date;
 }

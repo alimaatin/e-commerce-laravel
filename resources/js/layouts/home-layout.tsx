@@ -19,7 +19,9 @@ export default function HomeLayout({ children }: { children: React.ReactNode }){
   return(
     <AppShell>
       <Header />
-      {children}
+      <div className="p-4 max-w-7xl mx-auto w-full border rounded-md space-y-4">
+        {children}
+      </div>
       <MobileBottomNav />
     </AppShell>
   );

@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { ArrowBigLeft, BookOpen, ClipboardCopy, Folder, LayoutGrid, List, Package, Settings, User } from 'lucide-react';
+import { ArrowBigLeft, BookOpen, Calendar, ClipboardCopy, Folder, LayoutGrid, List, Package, Settings, User } from 'lucide-react';
 import AppLogo from './app-logo';
 
 export function AppSidebar() {
@@ -20,6 +20,11 @@ export function AppSidebar() {
             title: 'Orders',
             href: '/dashboard/orders',
             icon: ClipboardCopy,
+        },
+        {
+            title: 'Bookings',
+            href: '/dashboard/bookings',
+            icon: Calendar,
         },
         {
             title: 'Settings',

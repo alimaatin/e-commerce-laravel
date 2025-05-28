@@ -61,4 +61,9 @@ class Vendor extends Model
     {
         return $this->hasManyThrough(Booking::class, Reservation::class);
     }
+
+    public function orders()
+    {
+        return $this->hasManyThrough(OrderDetail::class, Product::class);
+    }
 }

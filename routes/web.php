@@ -34,9 +34,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/reservations', [ReservationController::class, 'index']);
 
-    Route::get('/reservations/{reservation}', [ReservationController::class, 'show']);
+    Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
 
-    Route::post('/reservations/{reservation}', [BookingController::class, 'store']);
+    Route::post('/reservations/{reservation}', [BookingController::class, 'store'])->name('booking.store');
 
     Route::get('/vendors');
 

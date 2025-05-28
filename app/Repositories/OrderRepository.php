@@ -12,7 +12,7 @@ class OrderRepository
     {
       return Order::orderByDesc('created_at')->get();
     }
-    public function getUserOrdersSorted(?User $user)
+    public function getUserOrdersSorted(User $user)
     {
         return Order::where("user_id", $user->id)->orderByDesc("created_at")->get();
     }

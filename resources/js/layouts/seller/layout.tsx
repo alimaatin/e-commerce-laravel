@@ -32,6 +32,16 @@ export default function SellerLayout({ children, vendor_id }: SellerLayoutProps)
         href: `/seller/${vendor_id}/users`,
         icon: null,
     },
+    {
+    title: 'Orders',
+    href: `/seller/${vendor_id}/orders`,
+    icon: null,
+    },
+    {
+    title: 'Bookings',
+    href: `/seller/${vendor_id}/bookings`,
+    icon: null,
+    },
   ];
 
   // When server-side rendering, we only render the layout on the client...

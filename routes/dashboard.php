@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\VendorBookingsController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\VendorInvitationController;
+use App\Http\Controllers\VendorOrdersController;
 use App\Http\Controllers\VendorProductController;
 use App\Http\Controllers\VendorReservationController;
 use App\Http\Controllers\VendorUserController;
@@ -24,6 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::get('dashboard/orders', [OrderController::class, 'index'])->name('orders');
 
   Route::get('dashboard/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+  Route::get('dashboard/bookings', [BookingController::class, 'index'])->name('bookings');
+
+  Route::get('dashboard/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
 
 
   Route::get('/seller-form', [VendorController::class, 'create'])->name('seller.create');
@@ -68,9 +75,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
   Route::post('/seller/{vendor_invitation}/decline', [VendorInvitationController::class, 'decline'])->name('vendor.invitation.decline');
 
 
-  Route::get('/seller/{vendor}/orders')->name('seller.orders');
+  Route::get('/seller/{vendor}/orders', [VendorOrdersController::class, 'index'])->name('seller.orders');
 
-  Route::get('/seller/{vendor}/bookings')->name('seller.bookings');
+  Route::get('/seller/{vendor}/bookings', [VendorBookingsController::class, 'index'])->name('seller.bookings');
 
 
   Route::get('/dashboard/notifications', [NotificationController::class, 'index'])->name('notifications');
