@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\Vendor;
 use App\Repositories\ProductRepository;
 use App\Repositories\VendorRepository;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class VendorProductController extends Controller

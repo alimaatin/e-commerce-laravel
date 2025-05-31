@@ -38,8 +38,8 @@ export default function Vendors() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {vendors.map((vendor) => (
-              <TableRow>
+            {vendors.map((vendor, i) => (
+              <TableRow key={i}>
                 <TableCell>{vendor.id}</TableCell>
                 <TableCell>{vendor.name}</TableCell>
                 <TableCell>{new Date(vendor.created_at).toDateString()}</TableCell>

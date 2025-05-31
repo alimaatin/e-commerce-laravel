@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Payment;
 use App\Models\User;
 
 class OrderRepository
@@ -19,21 +20,29 @@ class OrderRepository
 
     public function getByAuthority($authority)
     {
-        return Order::where("authority", $authority)->first();
+        return Payment::where('authority', $authority)->first()->order;
     }
 
-    public function create(array $data)
+    public function create(User $user, array $data)
     {
-        return Order::create($data);
+        return $user->orders()->create($data);
     }
 
-    public function createDetail(array $data)
+    public function createDetail(Order $order, array $data)
     {
-        return OrderDetail::create($data);
+        return $order->order_details()->create($data);
     }
 
     public function update(Order $order, array $data)
     {
         return $order->update($data);
+    }
+
+    public function createPayment(Order $order, string $authority)
+    {
+        return $order->payment()->create([
+            'user_id' => $order->user_id,
+            'authority' => $authority
+        ]);
     }
 }

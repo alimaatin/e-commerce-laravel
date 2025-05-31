@@ -151,20 +151,6 @@ export interface Reservation {
   updated_at: string;
 }
 
-export interface ReservationForm {
-  name: string;
-  summary: string;
-  description: string;
-  start: string;
-  end: string;
-  price: number;
-  duration: number;
-  session_duration: number;
-  off_days: string[];
-  status: boolean;
-  vendor_id: number;
-}
-
 export interface InvitationAction {
     accept: string;
     decline: string;
@@ -192,4 +178,10 @@ export interface IBooking {
     done: boolean;
     created_at:Date;
     updated_at:Date;
+}
+
+export interface Payment {
+    id: number;
+    price:number;
+    order: Order | null;
 }

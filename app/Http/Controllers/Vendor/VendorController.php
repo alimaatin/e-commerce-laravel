@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVendorRequest;
-use App\Models\User;
 use App\Models\Vendor;
 use App\Repositories\VendorRepository;
 use App\Services\VendorService;
@@ -42,7 +42,7 @@ class VendorController extends Controller
 
     public function show(Vendor $vendor)
     {
-        return Inertia::render('seller', [
+        return Inertia::render('seller/index', [
             'vendor' => $vendor,
         ]);
     }

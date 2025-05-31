@@ -1,16 +1,23 @@
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import ReservationHourButton from "@/components/reservation-hour-button";
-import { Button } from "@/components/ui/button";
+import TextLink from "@/components/text-link";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { getDisabledDates, getHours, getTomorrow } from "@/helpers/dates";
 import HomeLayout from "@/layouts/home-layout";
-import { BreadcrumbItem, Reservation, Time } from "@/types";
+import { cn } from "@/lib/utils";
+import { BreadcrumbItem, Reservation, SharedData, Time } from "@/types";
 import { Head, useForm, usePage } from "@inertiajs/react";
-import { time } from "console";
-import { useEffect, useMemo, useState } from "react";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { useEffect, useState } from "react";
 
 export default function ShowReservation() {
-  const { reservation, times } = usePage<{reservation: Reservation, times: Time,}>().props;
+  const { reservation, times, balance } = usePage<SharedData & {reservation: Reservation, times: Time, balance: number}>().props;
+
+  const checkBalance = () => {
+    return balance < reservation.price;
+  }
 
   const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -37,7 +44,7 @@ export default function ShowReservation() {
     post(route('booking.store', reservation.id));
   }
 
-  const { post, errors,  setData, processing } = useForm({
+  const { post, errors, reset, setData, processing, clearErrors } = useForm({
     notes: "test",
     date: date,
     time: hours[selectedHour],
@@ -61,7 +68,7 @@ export default function ShowReservation() {
           <p className="text-muted-foreground">{reservation.summary}</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex justify-between gap-6">
+        <div className="flex flex-wrap justify-between gap-6">
 
           <div>
             <h3 className="text-lg font-semibold mb-2">Select a Date</h3>
@@ -93,13 +100,38 @@ export default function ShowReservation() {
                     );
                   })}
                 </div>
-                <Button type="submit" className="bg-green-400 hover:bg-green-300 w-full">{reservation.price.toLocaleString()}</Button>
+                <Dialog>
+                    <DialogTrigger className={cn(buttonVariants({ variant: "default"}), "bg-green-400 hover:bg-green-300 w-full")} disabled={checkBalance() || processing}>
+                    {reservation.price.toLocaleString()}
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogTitle>
+                        Are you sure you want to spend {reservation.price.toLocaleString()} to book this reservation?
+                      </DialogTitle>
+                      <DialogDescription>
+                        Once you accept, your balance will be {(balance - reservation.price).toLocaleString()} and cannot be refunded.
+                      </DialogDescription>
+                      <DialogFooter>
+                        <DialogClose>
+                          Cancel
+                        </DialogClose>
+                        <DialogClose asChild>
+                          <Button className="bg-green-400 hover:bg-green-300" onClick={handleSubmit} disabled={checkBalance() || processing}>{reservation.price.toLocaleString()}</Button>
+                        </DialogClose>       
+                      </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+                
+                {
+                  checkBalance() &&
+                  <p>You don't have enough balance. <TextLink href={route('wallet')}>Increase your balance here.</TextLink></p>
+                }
               </div>
             ) : (
               <div className="text-muted-foreground italic">No available times</div>
             )}
           </div>
-        </form>
+        </div>
       </div>
     </HomeLayout>
   );

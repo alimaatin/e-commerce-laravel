@@ -25,7 +25,7 @@ class Product extends Model
         return $this->belongsTo(Vendor::class);
     }
 
-    public function orderDetails()
+    public function order_details()
     {
         return $this->hasMany(OrderDetail::class);
     }

@@ -23,4 +23,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Reservation::class);
     }
+
+    public function vendor()
+    {
+        return $this->hasOneThrough(Vendor::class, Reservation::class);
+    }
 }

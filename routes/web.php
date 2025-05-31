@@ -4,9 +4,11 @@ use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WalletController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Order;
 use App\Models\Product;
@@ -26,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard/checkout/create', ['order' => $order]);
     })->name('checkout.create.show');
 
-    Route::get('payment/verify', [OrderController::class, 'verify'])->name('payment.verify');
+    Route::get('payment/verify', [PaymentController::class, 'verify'])->name('payment.verify');
 
     Route::get('products/{product}', [ProductController::class, 'show'])->name('products.show');
 
@@ -41,8 +43,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/vendors');
 
     Route::get('/vendors/{vendor}');
+
+    Route::get('wallet', [WalletController::class, 'show'])->name('wallet');
+
+    Route::post('wallet', [WalletController::class, 'update'])->name('wallet.update');
 });
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/dashboard.php';
+require __DIR__.'/seller.php';

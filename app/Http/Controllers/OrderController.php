@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateOrderAction;
+use App\Events\OrderVerified;
 use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -30,42 +31,24 @@ class OrderController extends Controller
             return redirect()->route('orders');
         }
 
-        $order->order_details;
-
         return Inertia::render('dashboard/orders/show', [
-            'order' => $order,
+            'order' => $order->order_details,
         ]);
     }
     public function store(StoreOrderRequest $request)
     {
         $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
 
         $response = $this->createOrder->handle($validated);
 
-        if (!empty($responseData['data']) && $response['data']['code'] == 100) {
+        if ($this->zarinpal->check($response)) {
             return Inertia::render('dashboard/checkout/create', [
-                'order' => $response,
-                'redirect_url' => "https://sandbox.zarinpal.com/pg/StartPay/" . $response['data']['authority'],
+            'order' => $response,
+            'redirect_url' => "https://sandbox.zarinpal.com/pg/StartPay/" . $response['data']['authority'],
             ]);
         } else {
             return Inertia::render('payment-failed', [
                 'data' => $response,
-            ]);
-        }
-    }
-
-    public function verify(Request $request)
-    {
-        $responseData = $this->zarinpal->verify($request->Authority);
-        if (!empty($responseData['data']) && $responseData['data']['code'] == 100) {
-            return Inertia::render('payment-verify', [
-                'order' => $responseData['order'],
-                'responseData' => $responseData['data'],
-            ]);
-        } else {
-            return Inertia::render('payment-failed', [
-                'data' => $responseData,
             ]);
         }
     }

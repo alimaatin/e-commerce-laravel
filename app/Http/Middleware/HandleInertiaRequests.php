@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'notification_count' => Notification::where('user_id', auth()->id())->get()->count(),
+            'balance' => auth()->user()?->balance,
             'is_vendor_owner' => Vendor::where('owner_id', auth()->id())->exists(),
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

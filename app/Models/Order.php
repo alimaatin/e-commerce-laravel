@@ -10,17 +10,12 @@ class Order extends Model
 
     public function getTotalPriceAttribute()
     {
-        return $this->orderDetails->sum('price');
+        return $this->order_details->sum('price');
     }
 
-    public function getStatusAttribute()
-    {
-        return $this->orderDetails()->where('status', false)->count() > 0 ? "Done" : "Pending";
-    }
+    protected $appends = ['total_price'];
 
-    protected $appends = ['total_price', 'status'];
-
-    public function orderDetails()
+    public function order_details()
     {
         return $this->hasMany(OrderDetail::class);
     }
@@ -28,6 +23,11 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
     
 }

@@ -21,8 +21,10 @@ class BookingController extends Controller
         $validated['user_id'] = auth()->id();
 
         $booking = $reservation->bookings()->create($validated);
+
+        auth()->user()->decrement('balance', $booking->price);
         
-        return to_route('reservations.show', $reservation);
+        return to_route('bookings');
     }
 
     public function index()

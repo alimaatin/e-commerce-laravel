@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Events\OrderVerified;
 use App\Repositories\OrderRepository;
 use App\Models\Order;
+use App\Models\Payment;
+use App\Repositories\PaymentRepository;
 use Illuminate\Support\Facades\Http;
 
 //TODO
@@ -14,22 +16,21 @@ class ZarinpalService
 {
   public function __construct(
     protected OrderRepository $orders,
+    protected PaymentRepository $payments
   ){}
 
-  public function create(array $data)
+  public function create(Payment $payment)
   {
-    $amount = intval($data['total_price'] * 10000);
-
     $zarinpalResponse = Http::withHeaders([
       'Accept' => 'application/json',
     ])->post('https://sandbox.zarinpal.com/pg/v4/payment/request.json', [
         'merchant_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-        'amount' => $amount,
+        'amount' => $payment->price,
         'callback_url' => route('payment.verify'),
-        'description' => 'پرداخت سفارش شماره ' . $data['id'],
+        'description' => 'پرداخت سفارش شماره ' . $payment->id,
         'metadata' => [
-            'email' => $data['email'],
-            'order_id' => strval($data['id']),
+            'email' => $payment->order->email ?? auth()->user()->email,
+            'order_id' => strval($payment->id),
         ],
     ]);
 
@@ -40,29 +41,30 @@ class ZarinpalService
 
   public function verify(string $authority)
   {
-    $order = $this->orders->getByAuthority($authority);
-    $amount = intval($order->total_price * 10000);
+    $payment = $this->payments->getByAuthority($authority);
 
     $zarinpalResponse = Http::withHeaders([
       'Accept' => 'application/json',
     ])->post('https://sandbox.zarinpal.com/pg/v4/payment/verify.json', [
         'merchant_id' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-        'amount' => $amount,
+        'amount' => $payment->price,
         'authority' => $authority,
     ]);
 
     $responseData = $zarinpalResponse->json();
 
-    if(!empty($responseData['data']) && $responseData['data']['code'] == 100) {
-      $this->orders->update($order, [
-        'status' => 'pending',
-      ]);
-      event(new OrderVerified($order));
-    }
-
     return [
-        'order' => $order,
+        'payment' => $payment,
         'data' => $responseData['data'],
     ];
+  }
+
+  public function check($response)
+  {
+    if(!empty($response['data']) && $response['data']['code'] == 100) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

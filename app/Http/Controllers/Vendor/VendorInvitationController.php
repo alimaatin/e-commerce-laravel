@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
-use App\Models\Vendor;
+use App\Http\Controllers\Controller;
 use App\Models\VendorInvitation;
 use App\Services\VendorService;
-use Illuminate\Http\Request;
 
 class VendorInvitationController extends Controller
 {

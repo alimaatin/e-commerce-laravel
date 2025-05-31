@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
+use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use App\Repositories\VendorRepository;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class VendorOrdersController extends Controller

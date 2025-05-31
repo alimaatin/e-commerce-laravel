@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import AppLayout from '@/layouts/app-layout';
 import SellerLayout from '@/layouts/seller/layout';
-import { BreadcrumbItem, ReservationForm, SharedData, Vendor } from '@/types';
+import { BreadcrumbItem, Vendor } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -18,8 +18,22 @@ const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Create', href: '#' },
 ];
 
+type ReservationForm = {
+  name: string;
+  summary: string;
+  description: string;
+  start: string;
+  end: string;
+  price: number;
+  duration: number;
+  session_duration: number;
+  off_days: string[];
+  status: boolean;
+  vendor_id: number;
+}
+
 export default function SellerReservationCreate() {
-  const { vendor } = usePage<SharedData & { vendor: Vendor }>().props;
+  const { vendor } = usePage<{ vendor: Vendor }>().props;
 
   const { data, setData, post, processing, errors } = useForm<Required<ReservationForm>>({
     name: '',
@@ -28,8 +42,9 @@ export default function SellerReservationCreate() {
     start: '',
     end: '',
     price: 0,
-    off_days: [] as string[],
-    exp_date: '',
+    duration: 0,
+    session_duration: 0,
+    off_days: [],
     status: true,
     vendor_id: vendor.id,
   });
@@ -74,9 +89,21 @@ export default function SellerReservationCreate() {
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label htmlFor="price">Price (Per minute)</Label>
+              <Label htmlFor="price">Price</Label>
               <Input id="price" type='number' min={0} step={50000} value={data.price} onChange={e => setData('price', Number(e.target.value))} />
               <InputError message={errors.price} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="price">Duration</Label>
+              <Input id="duration" type='number' min={7} step={1} max={14} value={data.duration} onChange={e => setData('duration', Number(e.target.value))} />
+              <InputError message={errors.duration} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="price">Session Duration(Minutes)</Label>
+              <Input id="session_duration" type='number' min={30} step={30} max={120} value={data.session_duration} onChange={e => setData('session_duration', Number(e.target.value))} />
+              <InputError message={errors.session_duration} />
             </div>
 
             <div className="flex flex-col gap-2">

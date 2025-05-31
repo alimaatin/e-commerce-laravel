@@ -19,7 +19,7 @@ class AdjustProductStock
      */
     public function handle(OrderVerified $event): void
     {
-        $order_details = $event->order->orderDetails;
+        $order_details = $event->order->order_details;
         foreach($order_details as $order_detail){
             $this->products->decreamentStock($order_detail->product, $order_detail->quantity);
         }

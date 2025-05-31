@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('name');
-            $table->string('email');
-            $table->string('address');
-            $table->string('postal_code');
-            $table->enum('status', ['failed', 'pending', 'complete'])->default('failed');
+            $table->foreignId("user_id");
+            $table->foreignId("order_id")->nullable()->constrained("orders");
+            $table->string('authority')->nullable();
+            $table->boolean('success')->default(false);
+            $table->integer('price');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('payments');
     }
 };

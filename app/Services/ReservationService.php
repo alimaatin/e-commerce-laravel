@@ -27,8 +27,8 @@ class ReservationService
   {
     $hours = [];
 
-    $start_hour = Carbon::createFromTime($start_hour);
-    $end_hour = Carbon::createFromTime($end_hour);
+    $start_hour = Carbon::createFromFormat('H:i', $start_hour);
+    $end_hour = Carbon::createFromFormat('H:i', $end_hour);
 
     while ($start_hour <= $end_hour) {
         $hours[] = $start_hour->format('H:i');

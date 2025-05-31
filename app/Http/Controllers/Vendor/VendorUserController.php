@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Vendor;
 
 use App\Events\NotificationEvent;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\InviteVendorMemberRequest;
 use App\Models\Vendor;
 use App\Repositories\VendorRepository;
