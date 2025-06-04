@@ -1,60 +1,61 @@
-# E-commerce Laravel
-> This is an E-commerce project created using Laravel React starter pack + sandbox Zarinpal integration which covers all the fundamentals to go for a scalable app.
 
-App is 90% compelete. You may find some bugs in the code, issues are welcome. 
+# Multi-Vendor E-commerce & Reservation System
 
----
-# Getting Started
+This project is mainly for educational purposes and requires changes before going into production.
+
+
+
+
+## Features
+- Laravel Authentication
+- Dashboard
+- Seller panel
+- Filament admin panel
+- In-app notifications
+- Vendor invitations
+- Orders
+- Reservations
+- Client side shopping cart
+- Zarinpal Integration
+- In-app wallet
+- Light/dark mode toggle
+- Reponsive design
+
+
 ## Installation
-Please check the official Laravel installation guide before you start. [Official Documentation](https://laravel.com/)
 
 Clone the repository
-```
-git clone https://github.com/alimaatin/e-commerce-laravel/
-```
-Switch to the repository folder
-```
-cd e-commerce-laravel
+```bash
+  git clone <repo url>
+  cd my-project
 ```
 Install all the dependencies
-```
+```bash
 composer install
 npm install
 ```
 Copy the example env file and make the required configuration changes in the .env file
-```
+```bash
 cp .env.example .env
 ```
 Generate a new application key
-```
+```bash
 php artisan key:generate
 ```
 Create storage link for file uploads
-```
+```bash
 php artisan storage:link
 ```
 Run the database migrations
-```
+```bash
 php artisan migrate
 ```
 Start the local development server
+```bash
+composer run dev
 ```
-php artisan serve
+Seed the database(optional)
+```bash
+php artisan db:seed
 ```
-
-**TL;DR command list**
-```
-git clone https://github.com/alimaatin/e-commerce-laravel/
-cd e-commerce-laravel
-composer install
-npm install
-cp .env.example .env
-php artisan storage:link
-php artisan key:generate
-```
-
-## Database Seeding
-Seed products
-```
-php artisna db:seed
-```
+## Docker
