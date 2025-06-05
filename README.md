@@ -19,15 +19,14 @@ This project is mainly for educational purposes and requires changes before goin
 - Zarinpal Integration
 - In-app wallet
 - Light/dark mode toggle
-- Reponsive design
 
 
 ## Installation
 
 Clone the repository
 ```bash
-  git clone <repo url>
-  cd my-project
+  git clone https://github.com/alimaatin/laravel-e-commerce
+  cd laravel-e-commerce
 ```
 Install all the dependencies
 ```bash
